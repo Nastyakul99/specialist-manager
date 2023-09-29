@@ -24,7 +24,7 @@ public class SpecialistManagerTests {
 		IScheduleManager manager = new ScheduleManager(repo);
 		
 		((IPrintScheduleManager) manager).printSchedule(LocalDateTime.of(2023, 9, 29, 12, 0),
-				LocalDateTime.of(2023, 10, 2, 12, 0),
+				LocalDateTime.of(2023, 10, 2, 11, 0),
 				Posts.DOCTOR,
 				System.out);
 		
@@ -39,6 +39,9 @@ public class SpecialistManagerTests {
 		Assert.assertFalse(manager.isCanMakeAppointment(LocalDateTime.of(2023, 10, 2, 18, 0),
 				repo.getByLastName("Карина").get(0)));
 		
+		Assert.assertTrue(manager.isCanMakeAppointment(LocalDateTime.of(2023, 10, 2, 15, 0),
+				repo.getByLastName("Аверин").get(0)));
+		
 	}
 	
 	private SpecialistRepositoryImpl newSpecialistRepositoryImpl() {
@@ -50,6 +53,13 @@ public class SpecialistManagerTests {
 		intervals1.add(TimeInterval.getInstance(LocalTime.of(12, 0) , LocalTime.of(12, 40)));
 		intervals1.add(TimeInterval.getInstance(LocalTime.of(13, 0) , LocalTime.of(13, 40)));
 		
+		List<TimeInterval> intervals2 = new ArrayList<>();
+		intervals2.add(TimeInterval.getInstance(LocalTime.of(8, 0) , LocalTime.of(8, 40)));
+		intervals2.add(TimeInterval.getInstance(LocalTime.of(9, 0) , LocalTime.of(9, 40)));
+		intervals2.add(TimeInterval.getInstance(LocalTime.of(12, 0) , LocalTime.of(12, 40)));
+		intervals2.add(TimeInterval.getInstance(LocalTime.of(13, 0) , LocalTime.of(13, 40)));
+		intervals2.add(TimeInterval.getInstance(LocalTime.of(14, 0) , LocalTime.of(14, 40)));
+		intervals2.add(TimeInterval.getInstance(LocalTime.of(15, 0) , LocalTime.of(15, 40)));
 		
 		ISpecialist s1 = new Specialist.SpecialistBuilder()
 						.firstName("Лариса")
@@ -74,7 +84,7 @@ public class SpecialistManagerTests {
 				.lastName("Аверин")
 				.patronymic("Николаев")
 				.post(Posts.DOCTOR)
-				.workingIntervals(intervals1)
+				.workingIntervals(intervals2)
 				.daysOff(Arrays.asList(DayOfWeek.SUNDAY))
 				.build();
 		
